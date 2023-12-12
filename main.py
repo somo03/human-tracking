@@ -60,6 +60,7 @@ def track_people(input_vid: str, save_path: str):
         # process YOLO detections
         detections = detector.detect(frame)
         try:
+            # scores store the confidence of detection
             bboxes, scores, _ = np.hsplit(detections, [4, 5])
             bboxes[:, 2:] = bboxes[:, 2:] - bboxes[:, :2]
             n_objects = detections.shape[0]
