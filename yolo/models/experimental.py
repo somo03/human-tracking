@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 from torch import nn
-from utils.google_utils import attempt_download
+#from utils.google_utils import attempt_download
 
 from .common import Conv
 
@@ -91,7 +91,7 @@ def attempt_load(weights, map_location=None):
     # Loads an ensemble of models weights=[a,b,c] or a single model weights=[a] or weights=a
     model = Ensemble()
     for w in weights if isinstance(weights, list) else [weights]:
-        attempt_download(w)
+        #attempt_download(w)
         ckpt = torch.load(w, map_location=map_location)  # load
         model.append(
             ckpt["ema" if ckpt.get("ema") else "model"].float().fuse().eval()
