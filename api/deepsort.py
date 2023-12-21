@@ -7,6 +7,8 @@ from deepsort.generate_detections import create_box_encoder
 from deepsort.nn_matching import NearestNeighborDistanceMetric
 from deepsort.tracker import Tracker
 
+from blur import blur_frame
+
 
 class DeepSORTTracker:
     """
@@ -63,9 +65,11 @@ class DeepSORTTracker:
 
             bbox = track.to_tlbr().astype(np.int32)  # extract bbox coordinates here
             # bbox is a list of 4 numbers: x and y coordinates of start- and end-point of the bbox
-            # if trackid object is found, return its bbox coordinates and exit the loop
+            # if trackid object is found, blur frame outside bbox, return its bbox coordinates, and exit the loop
             if bbox_by_id_only and (trackid == track.track_id):
+                blur_frame(frame, bbox)
                 return bbox
+
             # bbox_by_id_only regulates whether to draw bbox in the frame
             if not bbox_by_id_only:
                 # draw detection bounding box
