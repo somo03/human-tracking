@@ -3,7 +3,7 @@ import torch
 from torch import nn
 #from utils.google_utils import attempt_download
 
-from .common import Conv
+from yolo.models.common import Conv
 
 
 class CrossConv(nn.Module):
