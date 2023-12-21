@@ -8,18 +8,21 @@ import numpy as np
 from api.deepsort import DeepSORTTracker
 from api.yolo import YOLOPersonDetector
 
+from helper import video_writer_same_codec
+
 # constants
-YOLO_MODEL = "./checkpoints/yolov7x.pt"
-REID_MODEL = "./checkpoints/ReID.pb"
+YOLO_MODEL = "../human-tracking/checkpoints/yolov7x.pt"
+REID_MODEL = "../human-tracking/checkpoints/ReID.pb"
 MAX_COS_DIST = 0.5
 MAX_TRACK_AGE = 100
 
 
 class TrackingAPI:
-    def __init__(self, trackid, input_vid):
+    def __init__(self, trackid: int, input_vid: str, save_path: str):
         self.trackid = trackid
         self.input_vid = input_vid
         self.bb_list = []
+        self.save_path = save_path
 
     def get_trackid(self):
         return self.trackid
@@ -36,6 +39,7 @@ class TrackingAPI:
 
         # initialize video stream objects
         video = cv2.VideoCapture(self.input_vid)
+        output = video_writer_same_codec(video, self.save_path)
 
         # core processing loop
         frame_i = 0
@@ -63,6 +67,10 @@ class TrackingAPI:
             # track targets by refining with DeepSORT
             bbox = tracker.track(frame, bboxes, scores.flatten(), bbox_by_id_only=True, trackid=self.trackid)
             self.bb_list.append(bbox)
+
+            # write to output video
+            frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+            output.write(frame)
 
             # calculate FPS and display output frame
             frame_time = perf_counter() - start
