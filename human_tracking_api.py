@@ -19,6 +19,10 @@ MAX_TRACK_AGE = 100
 
 class TrackingAPI:
     def __init__(self, trackid: int, input_vid: str, save_path: str):
+        """
+        Notes:
+            `save_path` must be a path to .mp4 file
+        """
         self.trackid = trackid
         self.input_vid = input_vid
         self.bb_list = []
@@ -65,6 +69,7 @@ class TrackingAPI:
                 n_objects = 0
 
             # track targets by refining with DeepSORT
+            # the tracked target is wrapped into the bounding box, everything outside the box is blurred
             bbox = tracker.track(frame, bboxes, scores.flatten(), bbox_by_id_only=True, trackid=self.trackid)
             self.bb_list.append(bbox)
 
