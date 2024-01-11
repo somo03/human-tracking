@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-def blur_frame(frame, bbox, blur_strength=45, bbox_expansion=0.10):
+def blur_frame(frame, bbox, blur_strength=99, bbox_expansion=0.10):
     """
     Takes a frame read by opencv, start- and end-point coordinates of bounding box and blurs everything outside the
     bounding box. 'bbox_expansion' regulates the degree the bounding box from human tracking software is expanded.
@@ -30,14 +30,15 @@ def blur_frame(frame, bbox, blur_strength=45, bbox_expansion=0.10):
 
 
 path = "C:\\Users\\somo03\\PythonProjects\\OpenPose_quick_start\\openpose_quick_start\\openpose\\examples\\media\\COCO_val2014_000000000192.jpg"
-frame = cv2.imread(path)
+frame_test = cv2.imread(path)
 
 bbox = [0, 0, 300, 300]
 blur_strength = 25
 
 if __name__ == "__main__":
+
     # test on some image
-    blur_frame(frame, bbox)
-    cv2.imshow("image", frame)
+    blur_frame(frame_test, bbox=bbox)
+    cv2.imshow("image", frame_test)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
