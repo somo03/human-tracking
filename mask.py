@@ -2,11 +2,13 @@ import cv2
 import numpy as np
 
 
-def blur_frame(frame, bbox, blur_strength=99, bbox_expansion=0.10):
+def mask_frame(frame, bbox, blur=False, blur_strength=99, bbox_expansion=0.10):
     """
-    Takes a frame read by opencv, start- and end-point coordinates of bounding box and blurs everything outside the
-    bounding box. 'bbox_expansion' regulates the degree the bounding box from human tracking software is expanded.
-    This function operates inplace (writes modifies memory where 'frame' argument is stored).
+    Takes a frame read by opencv, start- and end-point coordinates of bounding box and hides everything outside the
+    bounding box.
+    If 'blur', then hiding means blurring. Otherwise, the area outside bbox is blacked.
+    'bbox_expansion' regulates the degree the bounding box from human tracking software is expanded.
+    This function operates inplace (modifies memory where 'frame' argument is stored).
     """
 
     height, width, nchannels = frame.shape
@@ -25,8 +27,11 @@ def blur_frame(frame, bbox, blur_strength=99, bbox_expansion=0.10):
     # invert mask
     mask = cv2.bitwise_not(mask)
 
-    blurred = cv2.GaussianBlur(frame, (blur_strength, blur_strength), 0)
-    frame[mask > 0] = blurred[mask > 0]
+    if blur:
+        blurred = cv2.GaussianBlur(frame, (blur_strength, blur_strength), 0)
+        frame[mask > 0] = blurred[mask > 0]
+    else:
+        frame[mask > 0] = 0
 
 
 path = "C:\\Users\\somo03\\PythonProjects\\OpenPose_quick_start\\openpose_quick_start\\openpose\\examples\\media\\COCO_val2014_000000000192.jpg"
@@ -38,7 +43,7 @@ blur_strength = 25
 if __name__ == "__main__":
 
     # test on some image
-    blur_frame(frame_test, bbox=bbox)
+    mask_frame(frame_test, bbox=bbox)
     cv2.imshow("image", frame_test)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
