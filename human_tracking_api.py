@@ -11,8 +11,8 @@ from api.yolo import YOLOPersonDetector
 from helper import video_writer_same_codec
 
 # constants
-YOLO_MODEL = "../human-tracking/checkpoints/yolov7x.pt"
-REID_MODEL = "../human-tracking/checkpoints/ReID.pb"
+YOLO_MODEL = "./checkpoints/yolov7x.pt"
+REID_MODEL = "./checkpoints/ReID.pb"
 MAX_COS_DIST = 0.5
 MAX_TRACK_AGE = 100
 
