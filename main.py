@@ -90,6 +90,7 @@ def track_people(input_vid: str, save_path: str):
 
 
 if __name__ == "__main__":
+    """
     parser = argparse.ArgumentParser(
         prog="Track and ID People in a video",
         description="Use Yolov7 for detecting people in a video, assign IDs to detected"
@@ -111,9 +112,21 @@ if __name__ == "__main__":
     args = parser.parse_args()
     args.input_vid = path.abspath(args.input_vid)
     args.save_path = path.abspath(args.save_path)
-    start = perf_counter()
+    # Example arguments pass:
+    #--input - vid = "C:/Users/somo03/PythonProjects/data/video/full/B34_Xsens/Moticon/Runde 1/Matte_cropped.mp4"
+    #--save - path = "data\output\B34_R1_Matte.mp4"
+    """
 
+    # ---- Set these parameters to your liking ------
+    person_id = "B15"
+    round_name = "3"
+    type_name = "Matte"
+    # -----------------------------------------------
+
+    input_vid = f"C:/Users/somo03/PythonProjects/data/video/full/{person_id}_Xsens/Moticon/Runde {round_name}/{type_name}_cut.mp4"
+    save_path = f"data/output/{person_id}_R{round_name}_{type_name}.mp4"
     # main pipeline
-    track_people(args.input_vid, args.save_path)
+    start = perf_counter()
+    track_people(input_vid, save_path)
 
     print(f"Total time: {perf_counter()-start:.2f} s")
