@@ -65,7 +65,7 @@ class DeepSORTTracker:
 
             bbox = track.to_tlbr().astype(np.int32)  # extract bbox coordinates here
             # bbox is a list of 4 numbers: x and y coordinates of start- and end-point of the bbox
-            # if trackid object is found, blur frame outside bbox, return its bbox coordinates, and exit the loop
+            # if trackid object is found, hide everything outside the bbox in the frame, return its bbox coordinates, and exit the loop
             if bbox_by_id_only and (trackid == track.track_id):
                 mask_frame(frame, bbox)
                 return bbox

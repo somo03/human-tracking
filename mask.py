@@ -6,7 +6,7 @@ def mask_frame(frame, bbox, blur=False, blur_strength=99, bbox_expansion=0.10):
     """
     Takes a frame read by opencv, start- and end-point coordinates of bounding box and hides everything outside the
     bounding box.
-    If 'blur', then hiding means blurring. Otherwise, the area outside bbox is blacked.
+    If 'blur', then hiding means blurring. Otherwise, the area outside bbox is blacked out.
     'bbox_expansion' regulates the degree the bounding box from human tracking software is expanded.
     This function operates inplace (modifies memory where 'frame' argument is stored).
     """
@@ -15,7 +15,7 @@ def mask_frame(frame, bbox, blur=False, blur_strength=99, bbox_expansion=0.10):
     mask = np.zeros((height, width, nchannels), dtype=np.uint8)
     xd, yd, xu, yu = bbox
 
-    # expand bbox a bit to avoid blurring edges of person walking
+    # expand bbox a bit to avoid overshadowing edges of person walking
     bbox_height = yu - yd
     bbox_width = xu - xd
     if (xd - bbox_width * bbox_expansion) >= 0: xd = int(xd - bbox_width * bbox_expansion)

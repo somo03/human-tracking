@@ -69,7 +69,7 @@ class TrackingAPI:
                 n_objects = 0
 
             # track targets by refining with DeepSORT
-            # the tracked target is wrapped into the bounding box, everything outside the box is blurred
+            # the tracked target is wrapped into the bounding box, everything outside the box is blacked out
             bbox = tracker.track(frame, bboxes, scores.flatten(), bbox_by_id_only=True, trackid=self.trackid)
             self.bb_list.append(bbox)
 
